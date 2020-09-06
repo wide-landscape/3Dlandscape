@@ -103,33 +103,33 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\LargeTile.scale-100.png" />
-    <Content Include="Assets\LargeTile.scale-200.png" />
-    <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\SmallTile.scale-100.png" />
-    <Content Include="Assets\SmallTile.scale-200.png" />
-    <Content Include="Assets\SmallTile.scale-400.png" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-400.png" />
-    <Content Include="Assets\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Include="Assets\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\StoreLogo.scale-100.png" />
-    <Content Include="Assets\StoreLogo.scale-200.png" />
-    <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="CoreData\LargeTile.scale-100.png" />
+    <Content Include="CoreData\LargeTile.scale-200.png" />
+    <Content Include="CoreData\LargeTile.scale-400.png" />
+    <Content Include="CoreData\SmallTile.scale-100.png" />
+    <Content Include="CoreData\SmallTile.scale-200.png" />
+    <Content Include="CoreData\SmallTile.scale-400.png" />
+    <Content Include="CoreData\SplashScreen.scale-100.png" />
+    <Content Include="CoreData\SplashScreen.scale-200.png" />
+    <Content Include="CoreData\SplashScreen.scale-400.png" />
+    <Content Include="CoreData\Square150x150Logo.scale-100.png" />
+    <Content Include="CoreData\Square150x150Logo.scale-200.png" />
+    <Content Include="CoreData\Square150x150Logo.scale-400.png" />
+    <Content Include="CoreData\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="CoreData\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="CoreData\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="CoreData\Square44x44Logo.scale-100.png" />
+    <Content Include="CoreData\Square44x44Logo.scale-200.png" />
+    <Content Include="CoreData\Square44x44Logo.scale-400.png" />
+    <Content Include="CoreData\Square44x44Logo.targetsize-16.png" />
+    <Content Include="CoreData\Square44x44Logo.targetsize-256.png" />
+    <Content Include="CoreData\Square44x44Logo.targetsize-48.png" />
+    <Content Include="CoreData\StoreLogo.scale-100.png" />
+    <Content Include="CoreData\StoreLogo.scale-200.png" />
+    <Content Include="CoreData\StoreLogo.scale-400.png" />
+    <Content Include="CoreData\Wide310x150Logo.scale-100.png" />
+    <Content Include="CoreData\Wide310x150Logo.scale-200.png" />
+    <Content Include="CoreData\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +143,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.1141" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
