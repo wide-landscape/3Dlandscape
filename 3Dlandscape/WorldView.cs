@@ -9,6 +9,7 @@ using Urho.Gui;
 using Urho.Shapes;
 using System.IO;
 using System.Reflection;
+using Urho.Physics;
 
 namespace _3Dlandscape
 {
@@ -72,6 +73,27 @@ namespace _3Dlandscape
 			zone.FogColor = new Color(0.5f, 0.5f, 0.8f);
 			zone.FogStart = 50;
 			zone.FogEnd = 300;
+
+			{
+				// Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
+				// illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
+				// generate the necessary 3D texture coordinates for cube mapping
+				Node skyNode = scene.CreateChild("Sky");
+				skyNode.SetScale(500.0f); // The scale actually does not matter
+				Skybox skybox = skyNode.CreateComponent<Skybox>();
+				skybox.Model = cache.GetModel("Models/Box.mdl");
+				skybox.SetMaterial(cache.GetMaterial("Skybox.xml"));
+
+				// Create a floor object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
+				Node floorNode = scene.CreateChild("Floor");
+				floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
+				floorNode.Scale = new Vector3(100.0f, 1.0f, 100.0f);
+				StaticModel floorObject = floorNode.CreateComponent<StaticModel>();
+				floorObject.Model = cache.GetModel("Models/Box.mdl");
+				floorObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
+
+
+			}
 
 			// Create a directional light to the world. Enable cascaded shadows on it
 			var DirlightNode = scene.CreateChild("DirectionalLight");

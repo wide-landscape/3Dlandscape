@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Models\Box.mdl" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -104,9 +105,56 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Data\world.png">
+    <AndroidAsset Include="Assets\Data\world.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Skybox.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Materials\StoneTiled.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\grass.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\DiffNormal.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\StoneDiffuse.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\StoneNormal.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\Diff.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\DiffSkybox.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_NegY.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_PosX.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_PosY.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_PosZ.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_NegX.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\BrightDay1_NegZ.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Data\SkyboxCube.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
