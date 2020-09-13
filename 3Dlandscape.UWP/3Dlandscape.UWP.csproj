@@ -103,6 +103,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="CoreData\LargeTile.scale-100.png" />
     <Content Include="CoreData\LargeTile.scale-200.png" />
     <Content Include="CoreData\LargeTile.scale-400.png" />
@@ -130,6 +133,28 @@
     <Content Include="CoreData\Wide310x150Logo.scale-100.png" />
     <Content Include="CoreData\Wide310x150Logo.scale-200.png" />
     <Content Include="CoreData\Wide310x150Logo.scale-400.png" />
+    <Content Include="Data\BrightDay1_NegX.dds" />
+    <Content Include="Data\BrightDay1_NegY.dds" />
+    <Content Include="Data\BrightDay1_NegZ.dds" />
+    <Content Include="Data\BrightDay1_PosX.dds" />
+    <Content Include="Data\BrightDay1_PosY.dds" />
+    <Content Include="Data\BrightDay1_PosZ.dds" />
+    <Content Include="Data\Diff.xml" />
+    <Content Include="Data\DiffNormal.xml" />
+    <Content Include="Data\DiffSkybox.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <AndroidAsset Include="Data\grass-texture-2.dds" />
+    <Content Include="Data\grass.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Materials\StoneTiled.xml" />
+    <Content Include="Data\Skybox.xml" />
+    <Content Include="Data\SkyboxCube.xml" />
+    <Content Include="Data\StoneDiffuse.dds" />
+    <Content Include="Data\StoneNormal.dds" />
+    <Content Include="Data\TerrainDetail1.dds" />
+    <Content Include="Data\world.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +177,9 @@
       <Project>{8545D62D-D271-4E8C-962C-804C9C6F9182}</Project>
       <Name>3Dlandscape</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Data\Models\Box.mdl" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

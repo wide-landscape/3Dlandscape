@@ -22,6 +22,7 @@ namespace _3Dlandscape
 		Node cameraNode;
 		Camera camera;
 		Octree octree;
+		Button touchedButton;
 
 		Double pinchStart = 0.0;
 
@@ -70,32 +71,29 @@ namespace _3Dlandscape
 			// Set same volume as the Octree, set a close bluish fog and some ambient light
 			zone.SetBoundingBox(new BoundingBox(-1000.0f, 1000.0f));
 			zone.AmbientColor = new Color(0.15f, 0.15f, 0.15f);
-			zone.FogColor = new Color(0.5f, 0.5f, 0.8f);
+			zone.FogColor = new Color(0.5f, 0.5f, 0.9f);
 			zone.FogStart = 50;
 			zone.FogEnd = 300;
 
-			{
-				// Create skybox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
-				// illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
-				// generate the necessary 3D texture coordinates for cube mapping
-				Node skyNode = scene.CreateChild("Sky");
-				skyNode.SetScale(500.0f); // The scale actually does not matter
-				Skybox skybox = skyNode.CreateComponent<Skybox>();
-				skybox.Model = cache.GetModel("Models/Box.mdl");
-				skybox.SetMaterial(cache.GetMaterial("Skybox.xml"));
+			// Create SKYbox. The Skybox component is used like StaticModel, but it will be always located at the camera, giving the
+			// illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
+			// generate the necessary 3D texture coordinates for cube mapping
+			Node skyNode = scene.CreateChild("Sky");
+			skyNode.SetScale(500.0f); // The scale actually does not matter
+			Skybox skybox = skyNode.CreateComponent<Skybox>();
+			skybox.Model = cache.GetModel("Models/Box.mdl");
+			skybox.SetMaterial(cache.GetMaterial("Skybox.xml"));
 
-				// Create a floor object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
-				Node floorNode = scene.CreateChild("Floor");
-				floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
-				floorNode.Scale = new Vector3(100.0f, 1.0f, 100.0f);
-				StaticModel floorObject = floorNode.CreateComponent<StaticModel>();
-				floorObject.Model = cache.GetModel("Models/Box.mdl");
-				floorObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
+			// Create a FLOOR object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
+			Node floorNode = scene.CreateChild("Floor");
+			floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
+			floorNode.Scale = new Vector3(100.0f, 1.0f, 100.0f);
+			StaticModel floorObject = floorNode.CreateComponent<StaticModel>();
+			floorObject.Model = cache.GetModel("Models/Box.mdl");
+			floorObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
 
 
-			}
-
-			// Create a directional light to the world. Enable cascaded shadows on it
+			// Create a directional LIGHT to the world. Enable cascaded shadows on it
 			var DirlightNode = scene.CreateChild("DirectionalLight");
 			DirlightNode.SetDirection(new Vector3(0.6f, -1.0f, 0.8f));
 			var Dirlight = DirlightNode.CreateComponent<Light>();
@@ -149,6 +147,30 @@ namespace _3Dlandscape
 			var m = Material.FromImage(i);
 			sphere.SetMaterial(m);
 
+			var boxNode = staticNode.CreateChild();
+			boxNode.Position = new Vector3(2.0f, 2.0f, -2.0f);
+			var box = new Button("bigger", new Color(0.0f, 0.0f, 1.0f, 1.0f));
+			boxNode.AddComponent(box);
+
+			boxNode = staticNode.CreateChild();
+			boxNode.Position = new Vector3(-2.0f, 2.0f, -2.0f);
+			box = new Button("smaller", new Color(1.0f, 0.0f, 0.0f, 1.0f));
+			boxNode.AddComponent(box);
+
+			boxNode = staticNode.CreateChild();
+			boxNode.Position = new Vector3(-2.0f, 2.0f, 2.0f);
+			box = new Button("turn", new Color(0.0f, 1.0f, 0.0f, 1.0f));
+			boxNode.AddComponent(box);
+
+			/*
+			var corner = staticNode.CreateChild("Corner");
+			corner.Position = new Vector3(2.0f, 2.0f, 2.0f);
+			corner.SetScale(1.0f);
+			var cornerObject = corner.CreateComponent<StaticModel>();
+			cornerObject.Model = cache.GetModel("corner.mdl");
+		*/
+
+
 
 
 			movementsEnabled = true;
@@ -183,12 +205,27 @@ namespace _3Dlandscape
 
 			Debug.WriteLine("Ontouched! NumFingers=" + NumFingers);
 
-			if (NumFingers == 2 /* PC:3  Andro:2  */ && movementsEnabled)
+			if (NumFingers == 2 /* PC:3  Andro:2  */ && movementsEnabled)	pinchStart = 0.0;
+
+			if (NumFingers == 1 /* PC:2  Andro:1  */ && movementsEnabled)
 			{
-				Debug.WriteLine("Ontouched! BEFORE pinchStart=" + pinchStart);
-				pinchStart = 0.0;
-				Debug.WriteLine("Ontouched! AFTER  pinchStart=" + pinchStart);
+				Ray cameraRay = camera.GetScreenRay((float)e.X / Graphics.Width, (float)e.Y / Graphics.Height);
+				var result = octree.RaycastSingle(cameraRay, RayQueryLevel.Triangle, 100, DrawableFlags.Geometry);
+				if (result != null)
+				{
+					var Button = result.Value.Node?.Parent?.GetComponent<Button>();
+					if (Button != null) 
+					{
+						string action = Button.Touch();
+						Debug.WriteLine(Button.Touch());
+						if (action == "bigger")  plotNode.RunActionsAsync(new EaseBackOut(new ScaleTo(0.3f, plotNode.Scale.X + 0.3f)));
+						if (action == "smaller") plotNode.RunActionsAsync(new EaseBackOut(new ScaleTo(0.3f, plotNode.Scale.X - 0.3f)));
+						if (action == "turn") plotNode.RunActionsAsync(new RotateBy(10.0f, 0.0f, -3600.0f, 0.0f));
+					}
+				}
 			}
+
+
 		}
 
 		protected override void OnUpdate(float timeStep)
@@ -243,5 +280,43 @@ namespace _3Dlandscape
 			var vp = new Viewport(Context, scene, camera, null);
 			renderer.SetViewport(0, vp);
 		}
+	}
+
+
+
+
+
+
+
+	public class Button : Component
+	{
+		Node buttonNode;
+		Color color;
+		string actionString;
+	
+		public Button(string action, Color color)
+		{
+			this.color = color;
+			this.actionString = action;
+			ReceiveSceneUpdates = true;
+		}
+
+		public override void OnAttachedToNode(Node node)
+		{
+			buttonNode = node.CreateChild();
+			buttonNode.Scale = new Vector3(0.5f, 0.5f, 0.5f); //small cube
+			var box = buttonNode.CreateComponent<Box>();
+			box.Color = color;
+
+			base.OnAttachedToNode(node);
+		}
+
+		public string Touch()
+		{
+			//this.Color = new Color(0.0f, 0.0f, 0.0f);
+			Debug.WriteLine("Touched!");
+			return (this.actionString);
+		}
+				
 	}
 }
