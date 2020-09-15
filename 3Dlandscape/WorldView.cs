@@ -22,7 +22,6 @@ namespace _3Dlandscape
 		Node cameraNode;
 		Camera camera;
 		Octree octree;
-		Button touchedButton;
 
 		Double pinchStart = 0.0;
 
@@ -141,8 +140,6 @@ namespace _3Dlandscape
 			New3Dtext( 2.0f, -2.0f,  2.0f, 0.0f, 0.0f, 0.0f, "*", staticNode, "blr");
 
 			var sphere = plotNode.CreateComponent<Sphere>();
-			sphere.Color = new Color(0.0f, 0.0f, 1.0f);
-
 			var i = cache.GetImage("world.png");
 			var m = Material.FromImage(i);
 			sphere.SetMaterial(m);
@@ -162,16 +159,9 @@ namespace _3Dlandscape
 			box = new Button("turn", new Color(0.0f, 1.0f, 0.0f, 1.0f));
 			boxNode.AddComponent(box);
 
-			/*
-			var corner = staticNode.CreateChild("Corner");
-			corner.Position = new Vector3(2.0f, 2.0f, 2.0f);
-			corner.SetScale(1.0f);
-			var cornerObject = corner.CreateComponent<StaticModel>();
-			cornerObject.Model = cache.GetModel("corner.mdl");
-		*/
-
-
-
+			var room  = new Room(new Vector3(4.0f, 0.0f, 0.0f), new Vector3(4.0f, 3.0f, 2.0f), new Vector3(0.0f, 0.0f, 0.0f), "Room1", staticNode);
+			var room2 = new Room(new Vector3(-3.0f, -3.0f, -3.0f), new Vector3(6.0f, 6.0f, 6.0f), new Vector3(0.0f, 0.0f, 0.0f), "Room2", plotNode);
+			var room3 = new Room(new Vector3(-2.0f, -2.0f, -2.0f), new Vector3(4.0f, 4.0f, 4.0f), new Vector3(0.0f, 45.0f, 0.0f), "Room3", plotNode);
 
 			movementsEnabled = true;
 		}
@@ -319,4 +309,6 @@ namespace _3Dlandscape
 		}
 				
 	}
+
+
 }

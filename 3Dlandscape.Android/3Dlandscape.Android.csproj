@@ -68,7 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\Models\Box.mdl" />
-    <AndroidAsset Include="Assets\Data\corner.mdl" />
+    <AndroidAsset Include="Assets\Data\corner.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Data\corner.blend" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

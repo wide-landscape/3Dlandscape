@@ -51,6 +51,9 @@
     <None Update="Assets\Data\BrightDay1_PosZ.dds">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Data\corner.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Data\Diff.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
