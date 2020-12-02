@@ -47,13 +47,19 @@ namespace _3Dlandscape
 			corner.Position = new Vector3 (x,y,z);
 			corner.Rotate(new Quaternion(rx, ry, rz), TransformSpace.World);
 			corner.SetScale(0.1f);
-			var cornerObject = corner.CreateComponent<StaticModel>();
-			cornerObject.Model = cache.GetModel("corner.mdl");
+
+			//var cornerObject = corner.CreateComponent<StaticModel>();
+			//cornerObject.Model = cache.GetModel("corner.mdl");
+			//cornerObject.Model = cache.GetModel("bloba.mdl");
 
 
-			var i = cache.GetImage("world.png");
-			var m = Material.FromImage(i);
-			cornerObject.SetMaterial(m);
+			var cornerObject = corner.CreateComponent<Box>();
+			cornerObject.Color = new Color(0.5f, 0.0f, 1.0f, 1.0f);
+
+
+			//var i = cache.GetImage("world.png");
+			//var m = Material.FromImage(i);
+			//cornerObject.SetMaterial(m);
 
 			//cornerObject.SetAttribute("Color", new Color(0.5f, 0.0f, 0.5f));
 

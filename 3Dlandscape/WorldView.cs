@@ -10,10 +10,11 @@ using Urho.Shapes;
 using System.IO;
 using System.Reflection;
 using Urho.Physics;
+using Xamarin.Forms;
 
 namespace _3Dlandscape
 {
-	public class WorldView : Application
+	public class WorldView : Urho.Application
 	{
 		bool movementsEnabled;
 		Scene scene;
@@ -25,8 +26,8 @@ namespace _3Dlandscape
 
 		Double pinchStart = 0.0;
 
-		public Bar SelectedBar { get; private set; }
-
+		double width;
+     
 		//		public IEnumerable<Bar> Bars => bars;
 
 		[Preserve]
@@ -54,6 +55,23 @@ namespace _3Dlandscape
 			var cache = ResourceCache;
 			Input.TouchEnd += OnTouched;
 
+
+			switch (Device.RuntimePlatform)
+			{
+				case Device.iOS:
+					Debug.WriteLine("DEVICE : iOS");
+					break;
+				case Device.Android:
+					Debug.WriteLine("DEVICE : Android");
+					break;
+				case Device.UWP:
+				default:
+					Debug.WriteLine("DEVICE : UWP");
+					break;
+			}
+
+
+
 			scene = new Scene();
 			octree = scene.CreateComponent<Octree>();
 
@@ -69,8 +87,8 @@ namespace _3Dlandscape
 
 			// Set same volume as the Octree, set a close bluish fog and some ambient light
 			zone.SetBoundingBox(new BoundingBox(-1000.0f, 1000.0f));
-			zone.AmbientColor = new Color(0.15f, 0.15f, 0.15f);
-			zone.FogColor = new Color(0.5f, 0.5f, 0.9f);
+			zone.AmbientColor = new Urho.Color(0.15f, 0.15f, 0.15f);
+			zone.FogColor = new Urho.Color(0.5f, 0.5f, 0.9f);
 			zone.FogStart = 50;
 			zone.FogEnd = 300;
 
@@ -144,23 +162,25 @@ namespace _3Dlandscape
 			var m = Material.FromImage(i);
 			sphere.SetMaterial(m);
 
-			var boxNode = staticNode.CreateChild();
+			var boxNode = staticNode.CreateChild(); 
 			boxNode.Position = new Vector3(2.0f, 2.0f, -2.0f);
-			var box = new Button("bigger", new Color(0.0f, 0.0f, 1.0f, 1.0f));
+			var box = new Button("bigger", new Urho.Color(0.0f, 0.0f, 1.0f, 1.0f));
 			boxNode.AddComponent(box);
-
+			
 			boxNode = staticNode.CreateChild();
 			boxNode.Position = new Vector3(-2.0f, 2.0f, -2.0f);
-			box = new Button("smaller", new Color(1.0f, 0.0f, 0.0f, 1.0f));
+			box = new Button("smaller", new Urho.Color(1.0f, 0.0f, 0.0f, 1.0f));
 			boxNode.AddComponent(box);
 
 			boxNode = staticNode.CreateChild();
 			boxNode.Position = new Vector3(-2.0f, 2.0f, 2.0f);
-			box = new Button("turn", new Color(0.0f, 1.0f, 0.0f, 1.0f));
+			box = new Button("turn", new Urho.Color(0.0f, 1.0f, 0.0f, 1.0f));
 			boxNode.AddComponent(box);
 
-			var room  = new Room(new Vector3(4.0f, 0.0f, 0.0f), new Vector3(4.0f, 3.0f, 2.0f), new Vector3(0.0f, 0.0f, 0.0f), "Room1", staticNode);
-			var room2 = new Room(new Vector3(-3.0f, -3.0f, -3.0f), new Vector3(6.0f, 6.0f, 6.0f), new Vector3(0.0f, 0.0f, 0.0f), "Room2", plotNode);
+			New3Dtext(2.0f, 0.5f, -2.0f, 0.0f, 0.0f, 0.0f, "NumTouches= *\nDevice.Android= \nInput.MouseVisible=", staticNode, "displ");
+
+			var room  = new Room(new Vector3( 4.0f,  0.0f,  0.0f), new Vector3(4.0f, 3.0f, 2.0f), new Vector3(0.0f,  0.0f, 0.0f), "Room1", staticNode);
+			var room2 = new Room(new Vector3(-3.0f, -3.0f, -3.0f), new Vector3(6.0f, 6.0f, 6.0f), new Vector3(0.0f,  0.0f, 0.0f), "Room2", plotNode);
 			var room3 = new Room(new Vector3(-2.0f, -2.0f, -2.0f), new Vector3(4.0f, 4.0f, 4.0f), new Vector3(0.0f, 45.0f, 0.0f), "Room3", plotNode);
 
 			movementsEnabled = true;
@@ -178,7 +198,7 @@ namespace _3Dlandscape
 			text3D.SetFont(CoreAssets.Fonts.AnonymousPro, 10);
 			text3D.TextEffect = TextEffect.Shadow;
 			text3D.Text = myText;
-			text3D.SetColor(new Color(0.0f, 0.0f, 0.0f));
+			text3D.SetColor(new Urho.Color(0.0f, 0.0f, 0.0f));
 
 		}
 
@@ -193,11 +213,13 @@ namespace _3Dlandscape
 		{
 			uint NumFingers = Input.NumTouches;
 
-			Debug.WriteLine("Ontouched! NumFingers=" + NumFingers);
+			Update3Dtext(staticNode, "displ", "NumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible);
 
-			if (NumFingers == 2 /* PC:3  Andro:2  */ && movementsEnabled)	pinchStart = 0.0;
+			if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true)) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
 
-			if (NumFingers == 1 /* PC:2  Andro:1  */ && movementsEnabled)
+			if (NumFingers == 2 && movementsEnabled)	pinchStart = 0.0;
+
+			if (NumFingers == 1 && movementsEnabled)
 			{
 				Ray cameraRay = camera.GetScreenRay((float)e.X / Graphics.Width, (float)e.Y / Graphics.Height);
 				var result = octree.RaycastSingle(cameraRay, RayQueryLevel.Triangle, 100, DrawableFlags.Geometry);
@@ -221,9 +243,12 @@ namespace _3Dlandscape
 		protected override void OnUpdate(float timeStep)
 		{
 			uint NumFingers = Input.NumTouches;
+
+			Update3Dtext(staticNode, "displ", "NumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible + "\nMousebutton=" + Input.GetMouseButtonDown(0));
+
 			if (NumFingers >= 1 && movementsEnabled)
 			{
-				/*NumFingers--; /* remove if Andro, keep if WIN */
+				if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true)) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
 
 				if (NumFingers == 1)
 				{
@@ -281,10 +306,10 @@ namespace _3Dlandscape
 	public class Button : Component
 	{
 		Node buttonNode;
-		Color color;
+		Urho.Color color;
 		string actionString;
 	
-		public Button(string action, Color color)
+		public Button(string action, Urho.Color color)
 		{
 			this.color = color;
 			this.actionString = action;
