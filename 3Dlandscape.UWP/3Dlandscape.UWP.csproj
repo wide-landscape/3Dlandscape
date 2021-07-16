@@ -139,6 +139,9 @@
     <Content Include="Data\BrightDay1_PosX.dds" />
     <Content Include="Data\BrightDay1_PosY.dds" />
     <Content Include="Data\BrightDay1_PosZ.dds" />
+    <Content Include="Data\cornerHandleTexture.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Diff.xml" />
     <Content Include="Data\DiffNormal.xml" />
     <Content Include="Data\DiffSkybox.xml">
@@ -185,15 +188,27 @@
     <AndroidAsset Include="Data\Models\Box.mdl" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\corner.blend">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Data\corner.mdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\bloba.mdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\cornerBiseau.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\cornerHandle.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\cornerHandleTexture.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

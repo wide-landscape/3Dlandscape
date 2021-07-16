@@ -26,7 +26,7 @@ namespace _3Dlandscape
 
 		Double pinchStart = 0.0;
 
-		double width;
+		//double width;
      
 		//		public IEnumerable<Bar> Bars => bars;
 
@@ -101,13 +101,28 @@ namespace _3Dlandscape
 			skybox.Model = cache.GetModel("Models/Box.mdl");
 			skybox.SetMaterial(cache.GetMaterial("Skybox.xml"));
 
+
 			// Create a FLOOR object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
+			/*
 			Node floorNode = scene.CreateChild("Floor");
 			floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
 			floorNode.Scale = new Vector3(100.0f, 1.0f, 100.0f);
 			StaticModel floorObject = floorNode.CreateComponent<StaticModel>();
 			floorObject.Model = cache.GetModel("Models/Box.mdl");
 			floorObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
+			*/
+
+
+			// Create a FLOOR object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
+			Node floorNode = scene.CreateChild();
+			floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
+			floorNode.Scale = new Vector3(100.0f, 0.001f, 100.0f); 
+			var floor = floorNode.CreateComponent<Box>();
+			floor.Color = new Urho.Color(0.2f, 0.2f, 0.2f, 1.0f);
+			var ii = cache.GetImage("grass.jpg");
+			var mm = Material.FromImage(ii);
+			floor.SetMaterial(mm);
+
 
 
 			// Create a directional LIGHT to the world. Enable cascaded shadows on it
@@ -177,7 +192,8 @@ namespace _3Dlandscape
 			box = new Button("turn", new Urho.Color(0.0f, 1.0f, 0.0f, 1.0f));
 			boxNode.AddComponent(box);
 
-			New3Dtext(2.0f, 0.5f, -2.0f, 0.0f, 0.0f, 0.0f, "NumTouches= *\nDevice.Android= \nInput.MouseVisible=", staticNode, "displ");
+			New3Dtext(2.0f, 0.5f, -2.0f, 0.0f, 0.0f, 0.0f, "NumTouches= *\nDevice.Android= \nInput.MouseVisible=", staticNode, "displTouches");
+			New3Dtext(0.0f, 0.5f, -2.0f, 0.0f, 0.0f, 0.0f, "Activated:", staticNode, "displActivated");
 
 			var room  = new Room(new Vector3( 4.0f,  0.0f,  0.0f), new Vector3(4.0f, 3.0f, 2.0f), new Vector3(0.0f,  0.0f, 0.0f), "Room1", staticNode);
 			var room2 = new Room(new Vector3(-3.0f, -3.0f, -3.0f), new Vector3(6.0f, 6.0f, 6.0f), new Vector3(0.0f,  0.0f, 0.0f), "Room2", plotNode);
@@ -196,7 +212,7 @@ namespace _3Dlandscape
 			textNode.Position = new Vector3(x, y, z);
 			text3D = textNode.CreateComponent<Text3D>();
 			text3D.SetFont(CoreAssets.Fonts.AnonymousPro, 10);
-			text3D.TextEffect = TextEffect.Shadow;
+			text3D.TextEffect = TextEffect.None;
 			text3D.Text = myText;
 			text3D.SetColor(new Urho.Color(0.0f, 0.0f, 0.0f));
 
@@ -209,13 +225,13 @@ namespace _3Dlandscape
 			text3D.Text = myText;
 		}
 
-		void OnTouched(TouchEndEventArgs e)
+		void OnTouched(TouchEndEventArgs e)  // Means the touch event finishED and the touch is released
 		{
 			uint NumFingers = Input.NumTouches;
 
-			Update3Dtext(staticNode, "displ", "NumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible);
+			Update3Dtext(staticNode, "displTouches", "[OnTouched]\nNumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible);
 
-			if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true)) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
+			if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true) && (NumFingers != 1) ) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
 
 			if (NumFingers == 2 && movementsEnabled)	pinchStart = 0.0;
 
@@ -228,11 +244,12 @@ namespace _3Dlandscape
 					var Button = result.Value.Node?.Parent?.GetComponent<Button>();
 					if (Button != null) 
 					{
+						Update3Dtext(staticNode, "displActivated", "Activated:" + Button.Touch());
+						
 						string action = Button.Touch();
-						Debug.WriteLine(Button.Touch());
 						if (action == "bigger")  plotNode.RunActionsAsync(new EaseBackOut(new ScaleTo(0.3f, plotNode.Scale.X + 0.3f)));
 						if (action == "smaller") plotNode.RunActionsAsync(new EaseBackOut(new ScaleTo(0.3f, plotNode.Scale.X - 0.3f)));
-						if (action == "turn") plotNode.RunActionsAsync(new RotateBy(10.0f, 0.0f, -3600.0f, 0.0f));
+						if (action == "turn")    plotNode.RunActionsAsync(new RotateBy(100.0f, 0.0f, -3600.0f, 0.0f));
 					}
 				}
 			}
@@ -240,19 +257,28 @@ namespace _3Dlandscape
 
 		}
 
-		protected override void OnUpdate(float timeStep)
+		protected override void OnUpdate(float timeStep)  // touch event is in progress
 		{
 			uint NumFingers = Input.NumTouches;
 
-			Update3Dtext(staticNode, "displ", "NumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible + "\nMousebutton=" + Input.GetMouseButtonDown(0));
+			Update3Dtext(staticNode, "displTouches", "[OnUpdate]\nNumTouches=" + NumFingers + "\nDevice.RuntimePlatform=" + Device.RuntimePlatform + "\nInput.MouseVisible=" + Input.MouseVisible + "\nMousebutton=" + Input.GetMouseButtonDown(0));
 
 			if (NumFingers >= 1 && movementsEnabled)
 			{
-				if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true)) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
+				if ((Device.RuntimePlatform == Device.UWP) && (Input.MouseVisible == true) && (NumFingers != 1) ) NumFingers--; /* if UWP and mouse visible, then compensate for NumFingers error */
 
-				if (NumFingers == 1)
+				if (NumFingers == 1) //
 				{
 					var touch = Input.GetTouch(0);
+
+
+
+					Ray cameraRay = camera.GetScreenRay((float)touch.Position.X / Graphics.Width, (float)touch.Position.Y / Graphics.Height);
+					var result = octree.RaycastSingle(cameraRay, RayQueryLevel.Triangle, 100, DrawableFlags.Geometry);
+
+
+
+
 
 					float rX = -touch.Delta.Y * 0.1f;
 					float rY = -touch.Delta.X * 0.1f;
