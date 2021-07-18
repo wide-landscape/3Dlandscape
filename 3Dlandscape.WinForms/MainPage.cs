@@ -15,7 +15,7 @@ namespace _3Dlandscape.WinForms
 {
     public partial class MainPage : Form
     {
-        Application currentApplication;
+        //Application currentApplication;
         SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         UrhoSurface surface;
         public MainPage()
