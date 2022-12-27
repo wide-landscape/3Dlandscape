@@ -87,7 +87,7 @@ namespace _3Dlandscape
 
 			// Set same volume as the Octree, set a close bluish fog and some ambient light
 			zone.SetBoundingBox(new BoundingBox(-1000.0f, 1000.0f));
-			zone.AmbientColor = new Urho.Color(0.15f, 0.15f, 0.15f);
+//				zone.AmbientColor = new Urho.Color(0.15f, 0.15f, 0.15f);
 			zone.FogColor = new Urho.Color(0.5f, 0.5f, 0.9f);
 			zone.FogStart = 50;
 			zone.FogEnd = 300;
