@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Data\Dark-Seamles-Wood-Texture.jpg" />
     <None Remove="world.png" />
   </ItemGroup>
 
@@ -27,8 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Data\Dark-Seamles-Wood-Texture.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -103,6 +103,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Data\Dark-Seamles-Wood-Texture.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />

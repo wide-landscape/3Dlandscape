@@ -189,6 +189,11 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\Data\grass-texture-2.dds" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Dark-Seamles-Wood-Texture.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

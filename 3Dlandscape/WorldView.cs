@@ -96,7 +96,8 @@ namespace _3Dlandscape
 			// illusion of the box planes being far away. Use just the ordinary Box model and a suitable material, whose shader will
 			// generate the necessary 3D texture coordinates for cube mapping
 			Node skyNode = scene.CreateChild("Sky");
-			skyNode.SetScale(500.0f); // The scale actually does not matter
+				skyNode.SetScale(40.0f); // The scale actually does not matter
+				skyNode.Position = new Vector3(0.0f, -5.0f, 0.0f);
 			Skybox skybox = skyNode.CreateComponent<Skybox>();
 			skybox.Model = cache.GetModel("Models/Box.mdl");
 			skybox.SetMaterial(cache.GetMaterial("Skybox.xml"));
@@ -114,14 +115,61 @@ namespace _3Dlandscape
 
 
 			// Create a FLOOR object, 1000 x 1000 world units. Adjust position so that the ground is at zero Y
-			Node floorNode = scene.CreateChild();
+/*				Node floorNode = scene.CreateChild();
 			floorNode.Position = new Vector3(0.0f, -2.0f, 0.0f);
-			floorNode.Scale = new Vector3(100.0f, 0.001f, 100.0f);
+				floorNode.Scale = new Vector3(40.0f, 0.001f, 40.0f);
 			var floor = floorNode.CreateComponent<Box>();
 			floor.Color = new Urho.Color(0.2f, 0.2f, 0.2f, 1.0f);
-			var ii = cache.GetImage("grass.jpg");
+				var ii = cache.GetImage("Concrete 5456x3632.jpg");
 			var mm = Material.FromImage(ii);
 			floor.SetMaterial(mm);
+*/
+
+				Node floorNodeJoints = scene.CreateChild();
+				floorNodeJoints.Position = new Vector3(0.0f, -2.0f, 0.0f);
+				floorNodeJoints.Scale = new Vector3(40.0f, 0.15f, 40.0f);
+				var floor = floorNodeJoints.CreateComponent<Box>();
+				floor.Color = new Urho.Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+
+				var ii = cache.GetImage("Dark-Seamles-Wood-Texture.jpg");
+				var mm = Material.FromImage(ii);
+				
+
+				float Gap = 0.05f;
+				System.Random TileLengthRandomizer = new Random();
+
+				for (float x = -10.0f; x <= 10.0f; x+=0.5f)
+				{
+					float TileLenght = 0.0f;
+					for (float z = -20.0f ; z < 20.0f ; z += TileLenght)
+					{
+						TileLenght = 3.0f + 4.0f * (float)TileLengthRandomizer.NextDouble(); // value between 3 and 7
+						TileLenght = ((z + TileLenght) > 20.0f) ? (20.0f - z) : TileLenght;
+
+						var floorNode = scene.CreateChild("FloorTile");
+						floorNode.Position = new Vector3(x * 2.0f , -2f, z + TileLenght / 2.0f);
+						floorNode.Scale = new Vector3(1.0f - Gap , 0.2f, TileLenght - Gap);
+						var floorObject = floorNode.CreateComponent<StaticModel>();
+						floorObject.Model = cache.GetModel("Models/Box.mdl");
+						floorObject.SetMaterial(mm);
+					}					
+				}
+
+
+/*				Node lightNode = cameraNode.CreateChild();
+				var light = lightNode.CreateComponent<Light>();
+				light.LightType = LightType.Point;
+				light.Range = 100;
+				light.Brightness = 1.3f;
+*/
+				var lightNode = scene.CreateChild("DirectionalLight");
+				lightNode.SetDirection(new Vector3(0.5f, -1.0f, 0.5f));
+				var light = lightNode.CreateComponent<Light>();
+				light.LightType = LightType.Directional;
+				light.Color = new Urho.Color(0.2f, 0.2f, 0.2f);
+				light.SpecularIntensity = 1.0f;
+
 
 
 
@@ -143,11 +191,6 @@ namespace _3Dlandscape
 
 			cameraNode.SetDirection(new Vector3(0, -3, 10)); // looking towards what point (x,y,z)
 
-			Node lightNode = cameraNode.CreateChild();
-			var light = lightNode.CreateComponent<Light>();
-			light.LightType = LightType.Point;
-			light.Range = 100;
-			light.Brightness = 1.3f;
 
 
 			// Draw a 3d reference 
